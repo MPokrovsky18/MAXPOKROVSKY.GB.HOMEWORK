@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MAXPOKROVSKY.GB.HOMEWORK
 {
@@ -10,31 +7,54 @@ namespace MAXPOKROVSKY.GB.HOMEWORK
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Здравствуйте вас приветствует математическая программа");
-            Console.WriteLine("пажалуйста введите число. ");
+            Console.WriteLine("Здравствуйте! Вас приветствует математическая программа");
 
-            String S = Console.ReadLine();
-
-            if (S == "q")
+            if(TryGetUserEnter(out int number))
             {
-                return;
+                ExecuteMath(number);
             }
-            int M = Int32.Parse(S);
-            int c1 = 1; int c2 = 0;
-            int c3 = 0;
-            for (int i = 1; i <= M; i++)
+            
+            Console.ReadLine();
+        }
+
+        private static bool TryGetUserEnter(out int number)
+        {
+            Console.Write("Пожалуйста, введите неотрицательное число: ");
+            number = -1;
+            string userInput = Console.ReadLine();
+
+            if (userInput == "q")
             {
-                c1 = c1 * i;
-                c2 = c2 + i;
-                if (i % 2 == 0)
+                return false;
+            }
+
+            if (int.TryParse(userInput, out number) == false || number < 0)
+            {
+                Console.WriteLine("Некорректный ввод!");
+                return false;
+            }
+
+            return true;
+        }
+
+        private static void ExecuteMath(int number)
+        {
+            int factorial = 1, sum = 0, maxEven = 0;
+
+            for (int i = 1; i <= number; i++)
+            {
+                factorial *= i;
+                sum += i;
+
+                if (i % 2 == 0 && i < number)
                 {
-                    c3 = i;
+                    maxEven = i;
                 }
             }
-            Console.WriteLine("Факториал равет " + c1); Console.WriteLine("Сума от 1 до N равна " + c2);
 
-            Console.WriteLine("максимальное четное число меньше N равно" + c3);
-            Console.ReadLine();
+            Console.WriteLine("Факториал равен " + factorial);
+            Console.WriteLine("Сума от 1 до N равна " + sum);
+            Console.WriteLine("Максимальное четное число меньше N равно " + maxEven);
         }
     }
 }
